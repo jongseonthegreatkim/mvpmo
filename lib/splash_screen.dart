@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 
 import 'onboarding/onboarding_main.dart';
 import 'after_onboarding_main.dart';
@@ -12,6 +13,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+
+  Future<bool> checkIfReturningUserWithHive() async {
+    final box = Hive.box('userBox');
+    final userId = box.get('userId');
+
+    if (userId == null) {
+      print('신규 유저입니다.');
+      return false;
+    } else {
+      print('기존 유저입니다. userId: $userId');
+      return true;
+    }
+  }
 
   // Slogan, Character, Blur, Title을 보여줄 지 결정하는 boolean 변수 4개
   bool _showSlogan = false;
@@ -41,11 +55,13 @@ class _SplashScreenState extends State<SplashScreen> {
     // 모든 요소가 보여진 후 더 오래 대기
     await Future.delayed(Duration(milliseconds: 750 * 4));
 
+    final isReturning = await checkIfReturningUserWithHive();
+
     // SplashScreen이 Widget Tree에 Mounted 되어있을 때만 온보딩 화면으로 Navigate
     if(!mounted) return;
     Navigator.of(context).pushReplacement(
       Routing.customPageRouteBuilder(
-        OnboardingMain(),
+        isReturning ? AfterOnboardingMain() : OnboardingMain(),
         1000,
       ),
     );

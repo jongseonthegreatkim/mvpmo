@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:hive/hive.dart';
 
 import 'splash_screen.dart';
 
 void main() async {
   // 플러그인이 제대로 초기화되도록 추가
   WidgetsFlutterBinding.ensureInitialized();
+
+  final appDocDir = await getApplicationDocumentsDirectory();
+  Hive.init(appDocDir.path);
+  await Hive.openBox('userBox');
 
   runApp(const MyApp());
 }

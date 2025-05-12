@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
 
 import '../widgets.dart';
 
@@ -22,6 +24,16 @@ class _OnboardingScreenOneState extends State<OnboardingScreenOne> {
     '토끼', '거북이', '고양이', '강아지', '펭귄',
     '호랑이', '여우', '수달', '다람쥐', '고래',
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    final box = Hive.box('userBox');
+    final uuid = const Uuid().v4();
+    print('uuid 생성: $uuid');
+    box.put('userId', uuid);
+    print('uuid 저장: ${box.get('userId')}');
+  }
 
   @override
   Widget build(BuildContext context) {
