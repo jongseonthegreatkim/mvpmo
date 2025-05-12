@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class ProfileScreenMain extends StatefulWidget {
   const ProfileScreenMain({super.key});
@@ -11,21 +10,9 @@ class ProfileScreenMain extends StatefulWidget {
 class _ProfileScreenMainState extends State<ProfileScreenMain> {
   int _selectedTabIndex = 0;
 
-  final fsStorage = FlutterSecureStorage();
-
-  String _userNickname = '';
-
-  Future<void> _loadUserNickname() async {
-    final userNickname = await fsStorage.read(key: 'randomName');
-    setState(() {
-      _userNickname = userNickname ?? '활발한 거북이';
-    });
-  }
-
   @override
   void initState() {
     super.initState();
-    _loadUserNickname();
   }
 
   @override
@@ -69,7 +56,7 @@ class _ProfileScreenMainState extends State<ProfileScreenMain> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                _userNickname,
+                '활발한 거북이',
                 style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.w700,

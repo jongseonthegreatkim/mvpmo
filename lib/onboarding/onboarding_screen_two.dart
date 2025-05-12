@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../widgets.dart';
 
@@ -19,16 +18,6 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo> {
   late int _selectedDayCount;
   final List<int> _availableDays = [1, 3, 5, 7, 14, 30];
   late final FixedExtentScrollController _scrollController;
-
-  // FlutterSecureStorage 인스턴스 생성
-  final fsStorage = FlutterSecureStorage();
-
-  // Save the selected day count to secure storage
-  Future<void> storeGoalDate(String goalDate) async {
-    await fsStorage.write(key: 'goalDate', value: _selectedDayCount.toString());
-    final saved = await fsStorage.read(key: 'goalDate');
-    print('목표 일수 저장여부: $saved');
-  }
 
   @override
   void initState() {
@@ -52,7 +41,7 @@ class _OnboardingScreenTwoState extends State<OnboardingScreenTwo> {
     setState(() {
       _selectedDayCount = _availableDays[index];
     });
-    storeGoalDate(_selectedDayCount.toString());
+
     widget.onDaySelected?.call(_selectedDayCount);
   }
 

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_inner_shadow/flutter_inner_shadow.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import '../routine/routine_screen_one.dart';
 import 'dart:async';
 
@@ -379,14 +378,6 @@ class _OnboardingScreenFourState extends State<OnboardingScreenFour> {
     );
   }
 
-  final fsStorage = FlutterSecureStorage();
-
-  Future<void> storeRoutineName(String routineName) async {
-    await fsStorage.write(key: 'routineName', value: routineName);
-    final saved = await fsStorage.read(key: 'routineName');
-    print('루틴 이름 저장됨: $saved');
-  }
-
   Widget routineDialog(int index) {
     // 태그에 따른 색상 선택
     String tag = filteredRoutines[index][0];
@@ -477,9 +468,6 @@ class _OnboardingScreenFourState extends State<OnboardingScreenFour> {
                 GestureDetector(
                   // RoutineScreen으로 이동하기
                   onTap: () {
-
-                    storeRoutineName('${filteredRoutines[index][2]} ${filteredRoutines[index][3]}');
-
                     Navigator.of(context).pushReplacement(
                       PageRouteBuilder(
                         pageBuilder: (context, animation, secondaryAnimation) => RoutineScreenOne(

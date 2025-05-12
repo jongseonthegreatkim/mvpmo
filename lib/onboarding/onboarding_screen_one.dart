@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../widgets.dart';
 
@@ -24,25 +23,10 @@ class _OnboardingScreenOneState extends State<OnboardingScreenOne> {
     '호랑이', '여우', '수달', '다람쥐', '고래',
   ];
 
-  // 이걸 onboarding_screen_two.dart에서도 '신규 가입자'기준으로 하려면, 한 루틴 밖에 못 하잖아...?
-  // 일단 그렇게 해보자
-  // FlutterSecureStorage 인스턴스 생성
-  final fsStorage = FlutterSecureStorage();
-
-  // randomName을 fsStorage에 저장하는 함수
-  Future<void> storeName(String randomName) async {
-    await fsStorage.write(key: 'randomName', value: randomName);
-    final saved = await fsStorage.read(key: 'randomName');
-    print('랜덤 이름 저장여부 : $saved');
-  }
-
   @override
   Widget build(BuildContext context) {
     // 랜덤 형용사와 랜덤 동물로 랜덤 이름 생성
     final String randomName = '${(adjectives..shuffle()).first} ${(animals..shuffle()).first}';
-
-    // 그렇게 생성된 랜덤 이름을 fsStorage에 저장
-    storeName(randomName);
 
     return Padding(
       padding: const EdgeInsets.symmetric(

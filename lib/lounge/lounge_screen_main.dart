@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mvp/lounge/lounge_post_screen.dart';
 
 import '../widgets.dart';
@@ -31,24 +30,6 @@ class _LoungeScreenMainState extends State<LoungeScreenMain> {
   void initState() {
     super.initState();
     postInfoList = List.from(_allPostInfoList);
-    final storage = FlutterSecureStorage();
-
-    Future<void> loadStoredPost() async {
-      final tag = await storage.read(key: 'tag');
-      final randomName = await storage.read(key: 'randomName');
-      final routineName = await storage.read(key: 'routineName');
-      final sogam = await storage.read(key: 'sogam');
-
-      if (tag != null && randomName != null && routineName != null && sogam != null) {
-        final newPost = [tag, randomName, routineName, sogam];
-        setState(() {
-          _allPostInfoList.insert(0, newPost);
-          postInfoList = List.from(_allPostInfoList);
-        });
-      }
-    }
-
-    loadStoredPost();
   }
 
   @override
